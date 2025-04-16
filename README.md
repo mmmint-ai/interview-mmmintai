@@ -13,8 +13,8 @@ Next steps:
 - [Fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo)
 - Solve the challenges (between 1 - 4 hours)
 - Cleanup the code for review
-- Create a PR with changes on your main fork (do not commit to main)
-- Send the PR to us
+- Create a PR with the changes on your **own forked repo** (do not create a PR on our repo)
+- Send the PR on your repo to us
 
 ## UI Framework
 
