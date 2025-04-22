@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ProcessItem } from '@/lib/process-item'
+import type { ProcessItem } from '@/lib/process-item.d.ts'
+
 import { ref } from 'vue'
 
 const items = ref<ProcessItem[]>([
