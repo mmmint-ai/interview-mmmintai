@@ -2,21 +2,12 @@
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 
 const props = defineProps({ images: Array as () => GalleryItem[] })
-
-function handleGalleryClose() {
-  setTimeout(() => {
-    requestAnimationFrame(() => {
-      if (document.activeElement instanceof HTMLElement) {
-        document.activeElement.blur()
-      }
-    })
-  }, 0)
-}
 </script>
 
 <template>
   <vue-picture-swipe
     class="my-gallery"
+    ref="pictureSwipe"
     :items="props.images"
     :options="{
       shareEl: false,
@@ -26,8 +17,7 @@ function handleGalleryClose() {
       rotateEl: true,
       closeToScroll: false,
       closeOnVerticalDrag: true,
-      }"
-      @close="handleGalleryClose"
+    }"
   ></vue-picture-swipe>
 </template>
 

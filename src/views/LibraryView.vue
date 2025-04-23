@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 import DropField from '@/components/DropField.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
+import DamageProcessTimeline from '@/components/DamageProcessTimeline.vue'
 import { openDB, type IDBPDatabase } from 'idb'
 
 const images = ref<GalleryItem[]>([])
@@ -99,6 +100,13 @@ async function handleImageDrop(files: File[]) {
         <v-card-title>Gallery</v-card-title>
         <v-card-text>
           <image-gallery :images="sortedImages"></image-gallery>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="12">
+      <v-card>
+        <v-card-text>
+          <damage-process-timeline />
         </v-card-text>
       </v-card>
     </v-col>
