@@ -10,10 +10,7 @@ const props = withDefaults(defineProps<{ accept: string }>(), {
 })
 
 const btnText = 'Datei wählen'
-/**
- * FIXME: We have to translate this to german, as our customers are 100% german.
- */
-const cardText = 'Drop files here'
+const cardText = 'Dateien hier ablegen'
 
 function dragOver() {
   isDragging.value = true
@@ -38,16 +35,25 @@ function onFileDrop(event: DragEvent) {
 }
 
 function handleFileList(files: FileList) {
-  for (const file of files) {
-    const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
-    const isAccepted = props.accept.includes(fileExtension)
+  const acceptedTypes = props.accept.split(',').map(type => type.trim().toLowerCase())
 
-    if (!isAccepted) {
-      throw new Error('Invalid File')
-    }
+  const validFiles = Array.from(files).filter(file => {
+    const type = file.type.toLowerCase()
+    const extension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
+
+    return acceptedTypes.some(accept => {
+      if (accept === 'image/*') {
+        return type.startsWith('image/')
+      }
+      return type === accept || extension === accept
+    })
+  })
+
+  if (validFiles.length === 0) {
+    throw new Error('Invalid File')
   }
 
-  emit('drop', files)
+  emit('drop', validFiles)
 }
 </script>
 
@@ -97,7 +103,7 @@ function handleFileList(files: FileList) {
 }
 
 .grabbable {
-  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: move;
   cursor: grab;
   cursor: -moz-grab;
   cursor: -webkit-grab;

@@ -3,6 +3,16 @@
  */
 export interface GalleryItem {
   /**
+   * The unique identifier for each image
+   */
+  id: string
+
+  /**
+   * The index of the specific image based on the absolute position within the GalleryItem Array.
+   */
+  index: number
+
+  /**
    * The image url of the image.
    * On local files that can be created via `URL.createObjectURL(file)`
    * @example URL.createObjectURL(file)

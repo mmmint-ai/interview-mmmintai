@@ -1,34 +1,82 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 import DropField from '@/components/DropField.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
+import { openDB, type IDBPDatabase } from 'idb'
 
-function enumerate(fileList: FileList) {
-  console.log(fileList)
+const images = ref<GalleryItem[]>([])
+
+const sortedImages = computed(() => {
+  return [...images.value].sort((a, b) => a.index - b.index)
+})
+
+let imageDB: IDBPDatabase | null = null
+
+onMounted(async () => {
+  imageDB = await openDB('ImageGallery', 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains('images')) {
+        db.createObjectStore('images', { keyPath: 'id' })
+      }
+    }
+  })
+
+  const stored = await imageDB.getAll('images')
+
+  for (const entry of stored) {
+    setTimeout(() => {
+      const url = URL.createObjectURL(entry.file)
+      images.value.push({
+        id: entry.id,
+        index: entry.index,
+        src: url,
+        thumbnail: url,
+        w: 0,
+        h: 0,
+        title: entry.name,
+      })
+    }, 0)
+  }
+})
+
+async function handleImageDrop(files: File[]) {
+  if (!Array.isArray(files) || !files.length) {
+    console.warn('No valid files received.')
+    return
+  }
+
+  if (!imageDB) return
+
+  for (const file of files) {
+
+    if (!file.type.startsWith('image/')) {
+      console.warn('Skipped non-image file:', file.name)
+      continue
+    }
+
+    const id = crypto.randomUUID()
+    const index = images.value.length
+
+    await imageDB.put('images', {
+      id,
+      name: file.name,
+      file,
+      index
+    })
+
+    const url = URL.createObjectURL(file)
+    images.value.push({
+      id,
+      index,
+      src: url,
+      thumbnail: url,
+      w: 0,
+      h: 0,
+      title: file.name,
+    })
+  }
 }
-
-const items = ref<GalleryItem[]>([
-  {
-    src: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
-    w: 0,
-    h: 0,
-    title: 'Will be used for caption',
-  },
-  {
-    src: 'https://www.schadensmeldung.digital/images/logistik.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/logistik.webp',
-    w: 0,
-    h: 0,
-  },
-  {
-    src: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
-    w: 0,
-    h: 0,
-  },
-])
 </script>
 
 <template>
@@ -41,7 +89,7 @@ const items = ref<GalleryItem[]>([
       <v-card>
         <v-card-title>Drop Field</v-card-title>
         <v-card-text>
-          <drop-field @drop="enumerate"></drop-field>
+          <drop-field @drop="handleImageDrop" accept="image/*" />
         </v-card-text>
       </v-card>
     </v-col>
@@ -50,7 +98,7 @@ const items = ref<GalleryItem[]>([
       <v-card>
         <v-card-title>Gallery</v-card-title>
         <v-card-text>
-          <image-gallery :items="items"></image-gallery>
+          <image-gallery :images="sortedImages"></image-gallery>
         </v-card-text>
       </v-card>
     </v-col>
