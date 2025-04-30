@@ -4,13 +4,13 @@ import { ref } from 'vue'
 const emit = defineEmits(['drop'])
 const isDragging = ref(false)
 const color = ref('indigo')
+const uploader = ref<HTMLInputElement | null>(null)
 
 const props = withDefaults(defineProps<{ accept: string }>(), {
   accept: '.jpg, .jpeg',
 })
 
-const btnText = 'Datei wählen'
-/**
+const btnText = 'Datei wählen'/**
  * FIXME: We have to translate this to german, as our customers are 100% german.
  */
 const cardText = 'Drop files here'
@@ -25,7 +25,9 @@ function dragLeave() {
 
 function onFileInput(event: Event) {
   const input = event.target as HTMLInputElement
-  handleFileList(input.files)
+  if (input.files) {
+    handleFileList(input.files)
+  }
 }
 
 function onFileDrop(event: DragEvent) {
@@ -74,7 +76,7 @@ function handleFileList(files: FileList) {
 
     <v-card-actions>
       <v-spacer />
-      <v-btn variant="text" @click="$refs.uploader.click()">
+      <v-btn variant="text" @click="uploader?.click()">
         {{ btnText }}
       </v-btn>
     </v-card-actions>
