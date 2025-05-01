@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 import DropField from '@/components/DropField.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
 
-function enumerate(fileList: FileList) {
-  console.log(fileList)
-}
+ const galleryItems = ref<GalleryItem[]>([])
 
-const items = ref<GalleryItem[]>([
+ const items = ref<GalleryItem[]>([
   {
     src: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
     thumbnail: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
@@ -29,10 +27,47 @@ const items = ref<GalleryItem[]>([
     h: 0,
   },
 ])
+
+const allItems = computed(() => [...items.value, ...galleryItems.value])
+
+/**
+ * Handle dropped image files
+ */
+function handleFileDrop(files: FileList) {
+  const validImageTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i]
+
+    if (!validImageTypes.includes(file.type)) {
+      console.warn(`Skipping file ${file.name}: Not a supported image type`)
+      continue
+    }
+
+    const fileUrl = URL.createObjectURL(file)
+
+    const newItem: GalleryItem = {
+      src: fileUrl,
+      thumbnail: fileUrl,
+      title: file.name,
+      w: 0,
+      h: 0,
+    }
+
+    const img = new Image()
+    img.onload = () => {
+      newItem.w = img.width
+      newItem.h = img.height
+      galleryItems.value.push(newItem)
+    }
+    img.src = fileUrl
+
+  }
+}
 </script>
 
 <template>
-  <v-row>
+    <v-row>
     <v-col cols="12">
       <h1>Library</h1>
     </v-col>
@@ -41,8 +76,10 @@ const items = ref<GalleryItem[]>([
       <v-card>
         <v-card-title>Drop Field</v-card-title>
         <v-card-text>
-          <drop-field @drop="enumerate"></drop-field>
-        </v-card-text>
+    <DropField
+      accept=".jpg, .jpeg, .png, .webp"
+      @drop="handleFileDrop" />
+    </v-card-text>
       </v-card>
     </v-col>
 
@@ -50,8 +87,8 @@ const items = ref<GalleryItem[]>([
       <v-card>
         <v-card-title>Gallery</v-card-title>
         <v-card-text>
-          <image-gallery :items="items"></image-gallery>
-        </v-card-text>
+    <ImageGallery :items="allItems" />
+     </v-card-text>
       </v-card>
     </v-col>
   </v-row>
