@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+/**
+ * A reusable file upload component that supports both drag-and-drop
+ * and traditional file selection. Validates files against accepted file extensions.
+ */
+
 const emit = defineEmits(['drop'])
 const isDragging = ref(false)
 const color = ref('indigo')
@@ -37,6 +42,13 @@ function onFileDrop(event: DragEvent) {
   }
 }
 
+/**
+ * Process and validate the file list
+ * Validates each file against accepted extensions and emits the 'drop' event
+ *
+ * @param {FileList} files List of files to process
+ * @throws {Error} Throws an error if any file has an invalid extension
+ */
 function handleFileList(files: FileList) {
   for (const file of files) {
     const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
@@ -94,20 +106,6 @@ function handleFileList(files: FileList) {
 <style scoped>
 .spaced {
   margin-bottom: 35px;
-}
-
-.grabbable {
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
 }
 
 .contain {

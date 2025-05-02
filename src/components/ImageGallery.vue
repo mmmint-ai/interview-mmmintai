@@ -3,6 +3,14 @@ import { ref, watch, computed } from 'vue'
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 
 /**
+ * Image gallery component that supports:
+ * - Image navigation (next/previous)
+ * - Zoom controls (in/out/reset)
+ * - Rotation controls (clockwise/counter-clockwise/reset)
+ * - Thumbnail navigation
+ */
+
+/**
  * Component props with a default empty items array
  */
  const props = withDefaults(defineProps<{ items: GalleryItem[] }>(), {
@@ -87,7 +95,6 @@ function resetRotation() {
 
 <template>
 <div class="image-gallery">
-    <!-- Controls for zoom, rotate, and navigation -->
     <div class="gallery-controls" v-if="totalImages > 0">
       <div class="zoom-controls">
         <v-btn icon @click="zoomOut"><v-icon>mdi-magnify-minus</v-icon></v-btn>
@@ -110,7 +117,6 @@ function resetRotation() {
       <v-btn @click="resetAll">Zurücksetzen</v-btn>
     </div>
 
-    <!-- Main image display with transformations applied -->
     <div class="image-container">
       <div v-if="currentImage" class="image-wrapper">
         <img
@@ -128,7 +134,6 @@ function resetRotation() {
       </div>
     </div>
 
-    <!-- Thumbnails for all images -->
     <div class="thumbnails-container" v-if="totalImages > 0">
       <div
         v-for="(item, index) in props.items"

@@ -4,6 +4,14 @@ import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 import DropField from '@/components/DropField.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
 
+/**
+ * Manages two sets of gallery items:
+ * 1. Default items (pre-loaded)
+ * 2. User-uploaded items
+ *
+ * Both sets are combined into a computed property for display
+ */
+
  const galleryItems = ref<GalleryItem[]>([])
 
  const items = ref<GalleryItem[]>([
@@ -31,7 +39,9 @@ import ImageGallery from '@/components/ImageGallery.vue'
 const allItems = computed(() => [...items.value, ...galleryItems.value])
 
 /**
- * Handle dropped image files
+ * Validates file types, creates object URLs, and adds valid images to the gallery
+ *
+ * @param {FileList} files - The list of files from the drop event
  */
 function handleFileDrop(files: FileList) {
   const validImageTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
@@ -55,13 +65,12 @@ function handleFileDrop(files: FileList) {
     }
 
     const img = new Image()
+    img.src = fileUrl
     img.onload = () => {
       newItem.w = img.width
       newItem.h = img.height
       galleryItems.value.push(newItem)
     }
-    img.src = fileUrl
-
   }
 }
 </script>
