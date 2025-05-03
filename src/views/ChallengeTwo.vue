@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProcessItem } from '@/lib/process-item.d.ts'
+import type { ProcessItem } from '@/lib/process-item.dt.ts'
 
 import { ref } from 'vue'
 
@@ -103,10 +103,8 @@ const items = ref<ProcessItem[]>([
   },
 ])
 
-/**
- * TODO: Disable this when challenge completed
- */
-const isDebug = ref(true)
+
+const isDebug = ref(false)
 </script>
 
 <template>
