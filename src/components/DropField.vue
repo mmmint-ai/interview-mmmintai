@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+/**
+ * A reusable file upload component that supports both drag-and-drop
+ * and traditional file selection. Validates files against accepted file extensions.
+ */
+
 const emit = defineEmits(['drop'])
 const isDragging = ref(false)
 const color = ref('indigo')
+const uploader = ref<HTMLInputElement | null>(null)
 
 const props = withDefaults(defineProps<{ accept: string }>(), {
-  accept: '.jpg, .jpeg',
+  accept: '.jpg, .jpeg, .png, .webp',
 })
 
 const btnText = 'Datei wählen'
-/**
- * FIXME: We have to translate this to german, as our customers are 100% german.
- */
-const cardText = 'Drop files here'
+const cardText = 'Dateien hier ablegen'
 
 function dragOver() {
   isDragging.value = true
@@ -25,7 +28,9 @@ function dragLeave() {
 
 function onFileInput(event: Event) {
   const input = event.target as HTMLInputElement
-  handleFileList(input.files)
+  if (input.files) {
+    handleFileList(input.files)
+  }
 }
 
 function onFileDrop(event: DragEvent) {
@@ -37,6 +42,13 @@ function onFileDrop(event: DragEvent) {
   }
 }
 
+/**
+ * Process and validate the file list
+ * Validates each file against accepted extensions and emits the 'drop' event
+ *
+ * @param {FileList} files List of files to process
+ * @throws {Error} Throws an error if any file has an invalid extension
+ */
 function handleFileList(files: FileList) {
   for (const file of files) {
     const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase()
@@ -74,7 +86,7 @@ function handleFileList(files: FileList) {
 
     <v-card-actions>
       <v-spacer />
-      <v-btn variant="text" @click="$refs.uploader.click()">
+      <v-btn variant="text" @click="uploader?.click()">
         {{ btnText }}
       </v-btn>
     </v-card-actions>
@@ -94,20 +106,6 @@ function handleFileList(files: FileList) {
 <style scoped>
 .spaced {
   margin-bottom: 35px;
-}
-
-.grabbable {
-  cursor: move; /* fallback if grab cursor is unsupported */
-  cursor: grab;
-  cursor: -moz-grab;
-  cursor: -webkit-grab;
-}
-
-/* (Optional) Apply a "closed-hand" cursor during drag operation. */
-.grabbable:active {
-  cursor: grabbing;
-  cursor: -moz-grabbing;
-  cursor: -webkit-grabbing;
 }
 
 .contain {
