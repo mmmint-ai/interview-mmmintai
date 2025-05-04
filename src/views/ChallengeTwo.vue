@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ProcessItem } from '@/lib/process-item.d.ts'
+import type { ProcessItem } from '@/lib/process-item.dt.ts'
 
 import { ref } from 'vue'
 
@@ -103,10 +103,8 @@ const items = ref<ProcessItem[]>([
   },
 ])
 
-/**
- * TODO: Disable this when challenge completed
- */
-const isDebug = ref(true)
+
+const isDebug = ref(false)
 </script>
 
 <template>
@@ -151,6 +149,14 @@ const isDebug = ref(true)
 
     <v-col cols="12">
       <h2>Prozess Visualisierung</h2>
+        <v-list-item
+          to="/damageprocess"
+          link
+          class="nav-item"
+          active-class="nav-item--active"
+          >
+            <v-list-item-title>Damage Process</v-list-item-title>
+        </v-list-item>
     </v-col>
 
     <v-col v-if="isDebug">
@@ -160,3 +166,20 @@ const isDebug = ref(true)
     </v-col>
   </v-row>
 </template>
+<style scoped>
+.nav-item {
+  color: #424242;
+  transition: background-color 0.2s;
+  padding-left: 0px;
+}
+
+.nav-item:hover {
+  background-color: #e3f2fd;
+}
+
+.nav-item--active {
+  font-weight: bold;
+  color: #1976d2;
+  background-color: #e3f2fd;
+}
+</style>
