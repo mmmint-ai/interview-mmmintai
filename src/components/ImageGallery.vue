@@ -8,7 +8,7 @@ const props = defineProps({ items: Array as () => GalleryItem[] })
   <vue-picture-swipe
     class="my-gallery"
     :items="props.items"
-    :options="{ shareEl: false, rotationOn: true }"
+    :options="{ shareEl: false, rotationOn: true, loop: true }"
   ></vue-picture-swipe>
 </template>
 
