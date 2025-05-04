@@ -5,29 +5,43 @@ import DropField from '@/components/DropField.vue'
 import ImageGallery from '@/components/ImageGallery.vue'
 
 function enumerate(fileList: FileList) {
-  console.log(fileList)
+  const newItems: GalleryItem[] = []
+
+  Array.from(fileList).forEach((file) => {
+    const imageUrl = URL.createObjectURL(file)
+
+    newItems.push({
+      src: imageUrl,
+      thumbnail: imageUrl,
+      w: 600,
+      h: 400,
+      title: file.name,
+    })
+  })
+
+  items.value = [...items.value, ...newItems]
 }
 
 const items = ref<GalleryItem[]>([
-  {
-    src: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
-    w: 0,
-    h: 0,
-    title: 'Will be used for caption',
-  },
-  {
-    src: 'https://www.schadensmeldung.digital/images/logistik.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/logistik.webp',
-    w: 0,
-    h: 0,
-  },
-  {
-    src: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
-    thumbnail: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
-    w: 0,
-    h: 0,
-  },
+  //   {
+  //     src: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
+  //     thumbnail: 'https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp',
+  //     w: 0,
+  //     h: 0,
+  //     title: 'Will be used for caption',
+  //   },
+  //   {
+  //     src: 'https://www.schadensmeldung.digital/images/logistik.webp',
+  //     thumbnail: 'https://www.schadensmeldung.digital/images/logistik.webp',
+  //     w: 0,
+  //     h: 0,
+  //   },
+  //   {
+  //     src: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
+  //     thumbnail: 'https://www.schadensmeldung.digital/images/werkstatt.webp',
+  //     w: 0,
+  //     h: 0,
+  //   },
 ])
 </script>
 

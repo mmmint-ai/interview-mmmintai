@@ -6,14 +6,12 @@ const isDragging = ref(false)
 const color = ref('indigo')
 
 const props = withDefaults(defineProps<{ accept: string }>(), {
-  accept: '.jpg, .jpeg',
+  accept: '.jpg, .jpeg , .png , .webp',
 })
 
 const btnText = 'Datei wählen'
-/**
- * FIXME: We have to translate this to german, as our customers are 100% german.
- */
-const cardText = 'Drop files here'
+
+const cardText = 'Dateien hier ablegen'
 
 function dragOver() {
   isDragging.value = true
