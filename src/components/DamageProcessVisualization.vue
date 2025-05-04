@@ -4,6 +4,15 @@ import type { ProcessItem } from '@/lib/process-item.dt.ts';
 import { format } from 'date-fns';
 import { de } from 'date-fns/locale';
 
+
+/**
+ * A component that displays and tracks a damage claim process through various stages.
+ * The component visualizes the process as a vertical timeline with detailed information for each step.
+ */
+
+/**
+ * Array of process steps for damage claim tracking
+ */
 const items = ref<ProcessItem[]>([
   {
     type: 'CALL_RECEIVED',
@@ -104,8 +113,40 @@ const items = ref<ProcessItem[]>([
   },
 ])
 
+const displayNames: Record<string, string> = {
+    'CALL_RECEIVED': 'Anruf',
+    'IMAGES_RECEIVED': 'Bilder',
+    'KVA_REQUESTED': 'KVA Anfrage',
+    'KVA_RECEIVED': 'KVA Eingang',
+    'LEASE_APPROVAL': 'Leasing OK',
+    'FLEET_APPROVAL': 'Fuhrpark OK',
+    'INSURANCE_APPROVAL': 'Versicherung OK',
+    'WORKSHOP_APPOINTMENT': 'Werkstatt',
+    'REPAIRED': 'Repariert',
+    'PROCESS_COMPLETED': 'Abgeschlossen'
+  };
+
+  const statusColors: Record<string, string> = {
+    'erfasst': 'amber',
+    'eingegangen': 'blue',
+    'angefragt': 'purple',
+    'freigegeben': 'green',
+    'terminiert': 'orange',
+    'abgeschlossen': 'green-darken-1',
+    'geschlossen': 'grey'
+  };
+
+/**
+ * Index of the currently active/selected step
+ */
 const activeStep = ref(0);
 
+/**
+ * Formats a timestamp into a localized German date and time format
+ *
+ * @param {string} timestamp ISO 8601 timestamp string
+ * @returns {string} Formatted date string in German locale (dd.MM.yyyy, HH:mm)
+ */
 const formatDate = (timestamp: string): string => {
   return format(new Date(timestamp), 'dd.MM.yyyy, HH:mm', { locale: de });
 };
@@ -125,34 +166,11 @@ const isStepActive = (index: number): boolean => {
 };
 
 const getStepTypeDisplayName = (type: string): string => {
-  const displayNames: Record<string, string> = {
-    'CALL_RECEIVED': 'Anruf',
-    'IMAGES_RECEIVED': 'Bilder',
-    'KVA_REQUESTED': 'KVA Anfrage',
-    'KVA_RECEIVED': 'KVA Eingang',
-    'LEASE_APPROVAL': 'Leasing OK',
-    'FLEET_APPROVAL': 'Fuhrpark OK',
-    'INSURANCE_APPROVAL': 'Versicherung OK',
-    'WORKSHOP_APPOINTMENT': 'Werkstatt',
-    'REPAIRED': 'Repariert',
-    'PROCESS_COMPLETED': 'Abgeschlossen'
-  };
-
   return displayNames[type] || type;
 };
 
 const getStatusColor = (status: string): string => {
-  const statusColors: Record<string, string> = {
-    'erfasst': 'amber',
-    'eingegangen': 'blue',
-    'angefragt': 'purple',
-    'freigegeben': 'green',
-    'terminiert': 'orange',
-    'abgeschlossen': 'green-darken-1',
-    'geschlossen': 'grey'
-  };
-
-  return statusColors[status] || 'primary';
+    return statusColors[status] || 'primary';
 };
 </script>
 
