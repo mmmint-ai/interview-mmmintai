@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ProcessItem } from '@/lib/process-item.d.ts'
+import ProcessSteps from '@/components/ProcessSteps.vue'
 
 import { ref } from 'vue'
 
@@ -106,7 +107,7 @@ const items = ref<ProcessItem[]>([
 /**
  * TODO: Disable this when challenge completed
  */
-const isDebug = ref(true)
+const isDebug = ref(false)
 </script>
 
 <template>
@@ -159,4 +160,18 @@ const isDebug = ref(true)
       </pre>
     </v-col>
   </v-row>
+  <v-col v-for="(item, index) in items" :key="index" cols="12">
+    <process-steps
+      :type="item.type"
+      :title="item.title"
+      :timestamp="item.timestamp"
+      :contact="item.contact"
+      :status="item.status"
+      :location="item.location"
+      :comment="item.comment"
+      :referenceId="item.referenceId"
+      :anount="item.anount"
+    >
+    </process-steps>
+  </v-col>
 </template>
