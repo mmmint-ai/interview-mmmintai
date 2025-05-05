@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import DropField from '../components/DropField.vue'
+import ImmageGallery from '../components/ImageGallery.vue'
 import type { GalleryItem } from '@/lib/gallery-item.d.ts'
 import { ref } from 'vue'
 
-
-const imageList: GalleryItem[]  = ref([])
+const imageList: GalleryItem[] = ref([])
 
 const updateImageList = (list: FileList) => {
-  imageList.value = Array.from(list).map((file : File) => {
+  imageList.value = Array.from(list).map((file: File) => {
     const imageSrc = URL.createObjectURL(file)
 
     return {
-    src: imageSrc,
-    thumbnail: imageSrc, // simplified since stored locally anyway
-    w: 480,
-    h: 640,
-  }})
+      src: imageSrc,
+      thumbnail: imageSrc, // simplified since stored locally anyway
+      w: 480,
+      h: 640,
+    }
+  })
 }
-
 </script>
 
 <template>
@@ -53,10 +53,11 @@ const updateImageList = (list: FileList) => {
         <li>The components should be reusable and cleanly structured.</li>
       </ul>
     </v-col>
-  </v-row>
-  <v-row>
     <v-col cols="12">
-      <DropField @drop="updateImageList" accept=".jpg, .jpeg, .webp, .png"/>
+      <DropField @drop="updateImageList" accept=".jpg, .jpeg, .webp, .png" />
+    </v-col>
+    <v-col cols="12">
+      <ImmageGallery :items="imageList" />
     </v-col>
   </v-row>
 </template>
