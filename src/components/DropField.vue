@@ -6,7 +6,7 @@ const isDragging = ref(false)
 const color = ref('indigo')
 
 const props = withDefaults(defineProps<{ accept: string }>(), {
-  accept: '.jpg, .jpeg',
+  accept: '.jpg, .jpeg, .webp, .png' ,
 })
 
 const btnText = 'Datei wählen'
