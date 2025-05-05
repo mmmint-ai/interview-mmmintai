@@ -1,5 +1,23 @@
 <script setup lang="ts">
 import DropField from '../components/DropField.vue'
+import type { GalleryItem } from '@/lib/gallery-item.d.ts'
+import { ref } from 'vue'
+
+
+const imageList: GalleryItem[]  = ref([])
+
+const updateImageList = (list: FileList) => {
+  imageList.value = Array.from(list).map((file : File) => {
+    const imageSrc = URL.createObjectURL(file)
+
+    return {
+    src: imageSrc,
+    thumbnail: imageSrc, // simplified since stored locally anyway
+    w: 480,
+    h: 640,
+  }})
+}
+
 </script>
 
 <template>
@@ -37,8 +55,8 @@ import DropField from '../components/DropField.vue'
     </v-col>
   </v-row>
   <v-row>
-    <v-col>
-      <DropField />
+    <v-col cols="12">
+      <DropField @drop="updateImageList" accept=".jpg, .jpeg, .webp, .png"/>
     </v-col>
   </v-row>
 </template>
