@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import DropField from '../components/DropField.vue'
+</script>
 
 <template>
   <v-row>
@@ -32,6 +34,11 @@
         <li>The dropped files should be previewed as thumbnails in the image gallery below.</li>
         <li>The components should be reusable and cleanly structured.</li>
       </ul>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col>
+      <DropField />
     </v-col>
   </v-row>
 </template>
