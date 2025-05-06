@@ -1,11 +1,29 @@
 /**
+ * Process step type enum
+ */
+export enum ProcessItemTypeEnum {
+  CALL_RECEIVED = 'CALL_RECEIVED',
+  IMAGES_RECEIVED = 'IMAGES_RECEIVED',
+  KVA_REQUESTED = 'KVA_REQUESTED',
+  KVA_RECEIVED = 'KVA_RECEIVED',
+  LEASE_APPROVAL = 'LEASE_APPROVAL',
+  FLEET_APPROVAL = 'FLEET_APPROVAL',
+  INSURANCE_APPROVAL = 'INSURANCE_APPROVAL',
+  WORKSHOP_APPOINTMENT = 'WORKSHOP_APPOINTMENT',
+  REPAIRED = 'REPAIRED',
+  PROCESS_COMPLETED = 'PROCESS_COMPLETED',
+}
+
+
+
+/**
  * Process step items
  */
 export interface ProcessItem {
   /**
    * Enum of different process types
    */
-  type: string
+  type: ProcessItemTypeEnum
 
   /**
    * The title of the process step
@@ -41,4 +59,9 @@ export interface ProcessItem {
    * Optional: External reference id, can be from a 3rd party system or internal note for the process step
    */
   referenceId?: string
+
+  /**
+   * Optional: count of damages being reported at once
+   */
+  amount?: number,
 }
