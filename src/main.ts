@@ -14,6 +14,8 @@ import VuePictureSwipe from 'vue3-picture-swipe'
 
 import App from './App.vue'
 import router from './router'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 const vuetify = createVuetify({
   components,
@@ -26,6 +28,8 @@ const vuetify = createVuetify({
     },
   },
 })
+
+dayjs.extend(relativeTime)
 
 const app = createApp(App).use(vuetify).component('vue-picture-swipe', VuePictureSwipe)
 
