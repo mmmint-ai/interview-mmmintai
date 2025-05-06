@@ -11,8 +11,9 @@ const props = defineProps<{
   <v-timeline align="start" side="end" size="small">
     <v-timeline-item v-for="(item, index) in props.items" :key="index" fill-dot>
       <v-card style="width: 400px">
-        <v-card-title :class="['text-subtitle-1', `bg-grey`]">
-          {{ item.title }}
+        <v-card-title :class="['text-subtitle-1', `bg-grey`, 'd-flex', 'justify-space-between', 'align-center', 'ga-4']" style="width: 400px" >
+          <p style="white-space: normal;">{{ item.title }}</p>
+          <p class="text-caption" style="white-space: nowrap;" v-if="item.referenceId">{{ item.referenceId }}</p>
         </v-card-title>
         <v-card-text style="padding-top: 1rem; padding-bottom: 4px">
           <div class="d-flex flex-column ga-2">
@@ -30,9 +31,9 @@ const props = defineProps<{
             </div>
           </div>
 
-          <div class="d-flex justify-space-between" style="margin-top: 1rem">
-            <p class="text-grey text-caption">{{ dayjs(item.timestamp).fromNow() }}</p>
-            <p class="text-grey text-caption">
+          <div class="d-flex justify-space-between text-caption text-grey" style="margin-top: 1rem">
+            <p>{{ dayjs(item.timestamp).fromNow() }}</p>
+            <p>
               {{ dayjs(item.timestamp).format('DD.MM.YYYY HH:mm') }}
             </p>
           </div>
