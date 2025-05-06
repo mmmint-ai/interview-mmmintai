@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DamageClaimTimeline from '@/components/DamageClaimTimeline.vue'
+import DamageClaimTimeline from '@/components/DamageClaimTimeline/DamageClaimTimeline.vue'
 import { ProcessItemTypeEnum, type ProcessItem } from '@/lib/process-item.d.ts'
 import dayjs from 'dayjs'
 
