@@ -8,7 +8,7 @@ export interface GalleryItem {
    * @example URL.createObjectURL(file)
    * @example "https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp"
    */
-  src: string
+  itemImageSrc: string
 
   /**
    * A low rez image for displaying as thumbnail
@@ -16,7 +16,7 @@ export interface GalleryItem {
    * @example URL.createObjectURL(file)
    * @example "https://www.schadensmeldung.digital/images/fuhrparkmanagerin.webp"
    */
-  thumbnail: string
+  thumbnailImageSrc: string
 
   /**
    * Width of the image
