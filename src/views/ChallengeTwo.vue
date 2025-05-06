@@ -108,9 +108,6 @@ const items = ref<ProcessItem[]>([
 
 items.value.sort((a, b) => dayjs(a.timestamp).diff(dayjs(b.timestamp)))
 
-/**
- * TODO: Disable this when challenge completed
- */
 const isDebug = ref(false)
 </script>
 
