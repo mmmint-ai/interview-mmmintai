@@ -42,7 +42,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div :id="galleryID" ref="container" style="display: flex; gap: 8px; flex-wrap: wrap;">
+  <div :id="galleryID" ref="container" style="display: flex; gap: 8px; flex-wrap: wrap">
     <a
       v-for="(image, key) in images"
       :key="key"
@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
       target="_blank"
       rel="noreferrer"
     >
-      <img :src="image.thumbnail" alt="" width="150" height="225" style="object-fit: cover;" />
+      <img :src="image.thumbnail" alt="" width="150" height="225" style="object-fit: cover" />
     </a>
   </div>
 </template>

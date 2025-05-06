@@ -1,4 +1,4 @@
-import type { ProcessItemTypeEnum } from "./process-item-enum"
+import type { ProcessItemTypeEnum } from './process-item-enum'
 
 /**
  * Process step items
@@ -47,5 +47,5 @@ export interface ProcessItem {
   /**
    * Optional: count of damages being reported at once
    */
-  amount?: number,
+  amount?: number
 }
