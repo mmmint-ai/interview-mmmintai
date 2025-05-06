@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ProcessItem } from '@/lib/process-item.d.ts'
-import DamageClaimeTimelineItem from './DamageClaimeTimelineItem.vue';
+import DamageClaimeTimelineItem from '@/components/DamageClaimTimeline/DamageClaimTimelineItem.vue';
 
 const props = defineProps<{
   items: ProcessItem[]
