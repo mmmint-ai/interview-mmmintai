@@ -1,4 +1,36 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import DropField from '../components/DropField.vue'
+import ImageGallery from '../components/ImageGallery.vue'
+import type { GalleryItem } from '@/lib/gallery-item.d.ts'
+import { ref } from 'vue'
+
+const imageList = ref<GalleryItem[]>([])
+
+const getImageDimensions = (file: File): Promise<{ width: number; height: number }> => {
+  return new Promise((resolve) => {
+    const img = new Image()
+    img.onload = () => resolve({ width: img.width, height: img.height })
+    img.src = URL.createObjectURL(file)
+  })
+}
+
+const updateImageList = async (list: FileList) => {
+  const newImages = await Promise.all(
+    Array.from(list).map(async (file) => {
+      const { width, height } = await getImageDimensions(file)
+      const imageSrc = URL.createObjectURL(file)
+      return {
+        src: imageSrc,
+        thumbnail: imageSrc,
+        w: width,
+        h: height,
+      }
+    }),
+  )
+
+  imageList.value = newImages
+}
+</script>
 
 <template>
   <v-row>
@@ -32,6 +64,12 @@
         <li>The dropped files should be previewed as thumbnails in the image gallery below.</li>
         <li>The components should be reusable and cleanly structured.</li>
       </ul>
+    </v-col>
+    <v-col cols="12">
+      <DropField @drop="updateImageList" accept=".jpg, .jpeg, .webp, .png" />
+    </v-col>
+    <v-col cols="12">
+      <ImageGallery :images="imageList" :galleryID="'gallery'" />
     </v-col>
   </v-row>
 </template>
