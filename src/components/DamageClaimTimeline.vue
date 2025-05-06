@@ -8,8 +8,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <v-timeline align="start" side="end" size="small">
-    <v-timeline-item v-for="(item, index) in props.items" :key="index" fill-dot>
+  <v-timeline align="start" side="end" size="default">
+    <v-timeline-item v-for="(item, index) in props.items" :key="index" icon="mdi-check-network" fill-dot dot-color="green">
       <v-card style="width: 400px">
         <v-card-title :class="['text-subtitle-1', `bg-grey`, 'd-flex', 'justify-space-between', 'align-center', 'ga-4']" style="width: 400px" >
           <p style="white-space: normal;">{{ item.title }}</p>
