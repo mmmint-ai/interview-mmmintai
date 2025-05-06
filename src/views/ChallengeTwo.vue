@@ -111,7 +111,7 @@ items.value.sort((a, b) => dayjs(a.timestamp).diff(dayjs(b.timestamp)))
 /**
  * TODO: Disable this when challenge completed
  */
-const isDebug = ref(true)
+const isDebug = ref(false)
 </script>
 
 <template>
