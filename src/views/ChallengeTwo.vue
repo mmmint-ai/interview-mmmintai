@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import type { ProcessItem } from '@/lib/process-item.d.ts'
+import DamageClaimTimeline from '@/components/DamageClaimTimeline.vue'
+import { ProcessItemTypeEnum, type ProcessItem } from '@/lib/process-item.d.ts'
+import dayjs from 'dayjs'
 
 import { ref } from 'vue'
 
 const items = ref<ProcessItem[]>([
   {
-    type: 'CALL_RECEIVED',
+    type: ProcessItemTypeEnum.CALL_RECEIVED,
     title: 'Schadenmeldung telefonisch eingegangen',
     timestamp: '2025-04-10T08:45:00Z',
     contact: 'Max Mustermann',
@@ -16,7 +18,7 @@ const items = ref<ProcessItem[]>([
     amount: 0,
   },
   {
-    type: 'IMAGES_RECEIVED',
+    type: ProcessItemTypeEnum.IMAGES_RECEIVED,
     title: 'Schadenbilder übermittelt',
     timestamp: '2025-04-10T10:05:00Z',
     contact: 'Max Mustermann',
@@ -25,7 +27,7 @@ const items = ref<ProcessItem[]>([
     comment: '4 Bilder vom Fahrzeugheck.',
   },
   {
-    type: 'KVA_REQUESTED',
+    type: ProcessItemTypeEnum.KVA_REQUESTED,
     title: 'KVA angefragt',
     timestamp: '2025-04-10T11:30:00Z',
     contact: 'Autohaus Meier',
@@ -34,7 +36,7 @@ const items = ref<ProcessItem[]>([
     comment: 'Bitte Rückmeldung bis 12.04.',
   },
   {
-    type: 'KVA_RECEIVED',
+    type: ProcessItemTypeEnum.KVA_RECEIVED,
     title: 'KVA erhalten',
     timestamp: '2025-04-11T14:22:00Z',
     contact: 'Autohaus Meier',
@@ -44,7 +46,7 @@ const items = ref<ProcessItem[]>([
     referenceId: 'KVA-001',
   },
   {
-    type: 'LEASE_APPROVAL',
+    type: ProcessItemTypeEnum.LEASE_APPROVAL,
     title: 'Freigabe Leasing',
     timestamp: '2025-04-12T09:00:00Z',
     contact: 'Leasing AG',
@@ -54,7 +56,7 @@ const items = ref<ProcessItem[]>([
     referenceId: 'LEASE-APP-001',
   },
   {
-    type: 'FLEET_APPROVAL',
+    type: ProcessItemTypeEnum.FLEET_APPROVAL,
     title: 'Freigabe Fuhrparkmanager',
     timestamp: '2025-04-12T11:45:00Z',
     contact: 'Sven Fuhrmann',
@@ -64,7 +66,7 @@ const items = ref<ProcessItem[]>([
     referenceId: 'FLEET-APP-001',
   },
   {
-    type: 'INSURANCE_APPROVAL',
+    type: ProcessItemTypeEnum.INSURANCE_APPROVAL,
     title: 'Freigabe Versicherung',
     timestamp: '2025-04-13T08:30:00Z',
     contact: 'AllSecure Versicherung',
@@ -74,7 +76,7 @@ const items = ref<ProcessItem[]>([
     referenceId: 'INS-APP-001',
   },
   {
-    type: 'WORKSHOP_APPOINTMENT',
+    type: ProcessItemTypeEnum.WORKSHOP_APPOINTMENT,
     title: 'Werkstatttermin vereinbart',
     timestamp: '2025-04-13T15:20:00Z',
     contact: 'Autohaus Meier',
@@ -84,7 +86,7 @@ const items = ref<ProcessItem[]>([
     referenceId: 'TERM-001',
   },
   {
-    type: 'REPAIRED',
+    type: ProcessItemTypeEnum.REPAIRED,
     title: 'Auto repariert',
     timestamp: '2025-04-17T17:00:00Z',
     contact: 'Autohaus Meier',
@@ -93,7 +95,7 @@ const items = ref<ProcessItem[]>([
     comment: 'Stoßfänger und Kennzeichenhalter ersetzt.',
   },
   {
-    type: 'PROCESS_COMPLETED',
+    type: ProcessItemTypeEnum.PROCESS_COMPLETED,
     title: 'Vorgang abgeschlossen',
     timestamp: '2025-04-18T10:00:00Z',
     contact: 'Lea Abwicklung',
@@ -102,6 +104,8 @@ const items = ref<ProcessItem[]>([
     comment: 'Fahrzeug übergeben und dokumentiert.',
   },
 ])
+
+items.value.sort((a, b) => dayjs(a.timestamp).diff(dayjs(b.timestamp)))
 
 /**
  * TODO: Disable this when challenge completed
@@ -151,6 +155,7 @@ const isDebug = ref(true)
 
     <v-col cols="12">
       <h2>Prozess Visualisierung</h2>
+      <DamageClaimTimeline :items="items" />
     </v-col>
 
     <v-col v-if="isDebug">
