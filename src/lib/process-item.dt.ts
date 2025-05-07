@@ -41,4 +41,9 @@ export interface ProcessItem {
    * Optional: External reference id, can be from a 3rd party system or internal note for the process step
    */
   referenceId?: string
+
+  /**
+   * Optional
+   */
+  amount?: number
 }
